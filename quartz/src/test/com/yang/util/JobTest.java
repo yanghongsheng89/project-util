@@ -1,4 +1,4 @@
-package com.yang.test;
+package com.yang.util;
 
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;

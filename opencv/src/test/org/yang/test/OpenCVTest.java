@@ -1,8 +1,9 @@
 package org.yang.test;
 
 import junit.framework.TestCase;
-
-import org.junit.*;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 import org.yang.opencv.OpenCv;
 
 import java.io.File;
@@ -13,7 +14,7 @@ public class OpenCVTest extends TestCase{
 
     private static final String IMG_PATH="./imgs";
 
-    private static final String VIDEO_NAME="test.mp4";
+    private static final String VIDEO_NAME="util.mp4";
 
     @Override
     protected void setUp() throws Exception {

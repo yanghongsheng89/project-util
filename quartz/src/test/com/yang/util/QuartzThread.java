@@ -1,4 +1,4 @@
-package com.yang.test;
+package com.yang.util;
 
 import org.quartz.*;
 import org.quartz.impl.StdSchedulerFactory;
@@ -9,11 +9,11 @@ public class QuartzThread extends Thread{
     public void run() {
         try {
             Scheduler scheduler = StdSchedulerFactory.getDefaultScheduler();
-            JobDetail detailΩ = JobBuilder.newJob(JobTest.class).withIdentity("test","test").build();
+            JobDetail detailΩ = JobBuilder.newJob(JobTest.class).withIdentity("util","util").build();
             JobDetail detail = JobBuilder.newJob(JobTest.class).withIdentity("testA","testA").storeDurably(false).build();
-//            Trigger trigger = TriggerBuilder.newTrigger().withIdentity("test","test").startNow().build();
+//            Trigger trigger = TriggerBuilder.newTrigger().withIdentity("util","util").startNow().build();
             MutableTrigger trigger = CronScheduleBuilder.cronSchedule("3/5 * * * * ? *").build();
-            trigger.setKey(new TriggerKey("test"));
+            trigger.setKey(new TriggerKey("util"));
             scheduler.scheduleJob(detailΩ,trigger);
             MutableTrigger build = CronScheduleBuilder.cronSchedule("1/5 * * * * ? *").build();
 //            detail.getJobBuilder().ofType(CronTrigger.class);

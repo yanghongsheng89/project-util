@@ -3,8 +3,8 @@
     <name>project-util</name>
     <modules>
         <module>opencv</module>
-        <module>pdf</module>
         <module>quartz</module>
+        <module>calendar</module>
     </modules>
     <groupId>org.yang</groupId>
     <artifactId>project-util</artifactId>

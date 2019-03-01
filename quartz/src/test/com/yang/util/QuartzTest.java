@@ -1,4 +1,4 @@
-package com.yang.test;
+package com.yang.util;
 
 import junit.framework.TestCase;
 import sun.misc.Signal;
