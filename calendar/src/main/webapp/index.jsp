@@ -95,6 +95,9 @@
             white-space:normal;
             font-weight: lighter;
         }
+        .fc-unthemed td.fc-today {
+            background: #ff74FF;
+        }
     </style>
 </head>
 <body>
