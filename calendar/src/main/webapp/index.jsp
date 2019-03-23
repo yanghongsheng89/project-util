@@ -40,6 +40,9 @@
                         alert('there was an error while fetching events!');
                     }
                 },eventClick: function(calEvent, jsEvent, view) {
+                    if(calEvent.categoryId == 1){
+                        return
+                    }
                     $.post(
                         {
                             url:"events",

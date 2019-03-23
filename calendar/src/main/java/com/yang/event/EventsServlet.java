@@ -38,11 +38,6 @@ public class EventsServlet extends HttpServlet {
         if ("list".equals(m)){
             try {
                 List<Event> events = connectionUtil.query("select * from event where not (start > ? or end < ?) and controlBit&?=?", Event.class, end, start, EventConst.SHOW_STATUS,EventConst.SHOW_STATUS);
-                for (Event event : events) {
-                    if (event.getCategoryId().equals(EventConst.CATEGORY_ID_1)){
-                        event.setId(null);
-                    }
-                }
                 Properties dayList = ResourceUtil.getProperty("dayList");
                 for (Object key : dayList.keySet()) {
                     Event e = new Event();
