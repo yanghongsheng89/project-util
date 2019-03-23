@@ -60,7 +60,7 @@
                 <version>9.4.14.v20181114</version>
                 <configuration>
                     <httpConnector>
-                        <port>80</port>
+                        <port>8080</port>
                     </httpConnector>
                     <webAppConfig>
                         <contextPath>/</contextPath>

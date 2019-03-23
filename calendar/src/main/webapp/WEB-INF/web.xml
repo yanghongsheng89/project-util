@@ -12,4 +12,12 @@
             <servlet-name>events</servlet-name>
             <url-pattern>/events</url-pattern>
         </servlet-mapping>
+    <servlet>
+        <servlet-name>stock</servlet-name>
+        <servlet-class>com.yang.stock.StockServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>stock</servlet-name>
+        <url-pattern>/stock</url-pattern>
+    </servlet-mapping>
 </web-app>

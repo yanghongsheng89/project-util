@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.yang.util.ConnectionUtil;
 import com.yang.util.EventConst;
+import com.yang.util.ResourceUtil;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -15,7 +16,7 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.List;
+import java.util.*;
 
 public class EventsServlet extends HttpServlet {
 
@@ -37,8 +38,30 @@ public class EventsServlet extends HttpServlet {
         if ("list".equals(m)){
             try {
                 List<Event> events = connectionUtil.query("select * from event where not (start > ? or end < ?) and controlBit&?=?", Event.class, end, start, EventConst.SHOW_STATUS,EventConst.SHOW_STATUS);
+                for (Event event : events) {
+                    if (event.getCategoryId().equals(EventConst.CATEGORY_ID_1)){
+                        event.setId(null);
+                    }
+                }
+                Properties dayList = ResourceUtil.getProperty("dayList");
+                for (Object key : dayList.keySet()) {
+                    Event e = new Event();
+                    e.setCategoryId(EventConst.CATEGORY_ID_1);
+                    e.setColor(EventConst.COLOR_HOLIDAY);
+                    e.setTitle((String)dayList.get(key));
+                    e.setRemark((String)dayList.get(key));
+                    String year = start.substring(0,4);
+                    String startDate = year+"-"+key+" 00:00:00";
+                    String endDate = year+"-"+key+" 23:59:59";
+                    Date parse = simpleDateFormat.parse(startDate);
+                    e.setStart(new Timestamp(parse.getTime()));
+                    e.setEnd(new Timestamp(simpleDateFormat.parse(endDate).getTime()));
+                    e.setControlBit(EventConst.SHOW_STATUS);
+                    events.add(e);
+                    e.setId(-1l);
+                }
                 writer.append(gson.toJson(events));
-            } catch (SQLException e) {
+            } catch (SQLException | ParseException e) {
                 e.printStackTrace();
             }
         }else if("add".equals(m)){

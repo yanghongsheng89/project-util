@@ -40,7 +40,6 @@
                         alert('there was an error while fetching events!');
                     }
                 },eventClick: function(calEvent, jsEvent, view) {
-                    console.log(jsEvent)
                     $.post(
                         {
                             url:"events",
@@ -48,19 +47,21 @@
                             type:"post",
                             dataType:"json",
                             success:function(data){
-                                $("#startDate").val(data.start).show();
-                                $("#endDate").val(data.end).show();
-                                $("#remark").val(data.remark);
-                                $("#title").val(data.title);
-                                id = data.id;
-                                $("#alert").show();
-                                if (data.color=='#339966'){
-                                    $("#btn_div").hide()
-                                    return
+                                if (data) {
+                                    $("#startDate").val(data.start).show();
+                                    $("#endDate").val(data.end).show();
+                                    $("#remark").val(data.remark);
+                                    $("#title").val(data.title);
+                                    id = data.id;
+                                    $("#alert").show();
+                                    if (data.color=='#339966'){
+                                        $("#btn_div").hide()
+                                        return
+                                    }
+                                    $("#btn_div").show()
+                                    $("#btn_div").prepend("<input type='button' id='don' value='完成' style='width: 3em;'onclick='donf("+id+")'>")
+                                        .prepend("<input type='button' id='del' value='删除' style='width: 3em;'onclick='delf("+id+")'>").css("min-width","12em");
                                 }
-                                $("#btn_div").show()
-                                $("#btn_div").prepend("<input type='button' id='don' value='完成' style='width: 3em;'onclick='donf("+id+")'>")
-                                    .prepend("<input type='button' id='del' value='删除' style='width: 3em;'onclick='delf("+id+")'>").css("min-width","12em");
                             },
                             error:function(err){
                             }
@@ -98,10 +99,30 @@
         .fc-unthemed td.fc-today {
             background: #ff74FF;
         }
+        .left-stock-list{
+            position: fixed;
+            left: 0px;
+            top: 10px;
+            width: 15%;
+            min-width: 15em;
+        }
+        .right-message-list{
+            position: fixed;
+            right: 0px;
+            top: 10px;
+            width: 15%;
+            text-align: right;
+            min-width: 15em;
+        }
     </style>
 </head>
 <body>
 <div id='calendar'></div>
+<div class="left-stock-list" id="left-stock-list" style="overflow: scroll;height: 100%;">
+</div>
+<div class="right-message-list" id="right-message-list">
+
+</div>
 <div id="alert" style="background-color: aliceblue;height: 100%;width: 100%;z-index: 99999;position: fixed;top: 0px;display: none">
     <div style="top: 0.1%;right: 15%;position: fixed;font-size: large" class="close" onclick="xClose()">X</div>
     <div style="width: 50%;font-size: large;margin: auto;background-color:azure;font-size: xx-large">
@@ -118,7 +139,15 @@
         </div>
     </form>
 </div>
+</body>
 <script type="application/javascript">
+    $("document").ready(function () {
+        $.post("/stock",function (data) {
+            $(data).each(function (index,item) {
+                $("#left-stock-list").append("<a target='_blank' href='"+item.texturl+"'>"+item.name+"("+item.code.substr(2)+")</a><br/>")
+            })
+        })
+    })
     function xClose() {
         $("#del").remove();
         $("#don").remove();
@@ -191,5 +220,4 @@
         });
     }
 </script>
-</body>
 </html>
